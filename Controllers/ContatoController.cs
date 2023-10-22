@@ -33,5 +33,22 @@ namespace AgendaAPI.Controllers
             }
             return Ok(contato); 
         }
+
+        [HttpPut("{id}")]
+        public IActionResult Atualizar(int id, Contato contato) {
+            var contatoNoBanco = _context.Contatos.Find(id);
+
+            if (contatoNoBanco == null) {
+                return NotFound();
+            }
+            contatoNoBanco.Nome = contato.Nome;
+            contatoNoBanco.Telefone = contato.Telefone;
+            contatoNoBanco.Ativo = contato.Ativo;
+
+            _context.Contatos.Update(contatoNoBanco);
+            _context.SaveChanges();
+
+            return Ok(contatoNoBanco);
+        }
     }
 }
