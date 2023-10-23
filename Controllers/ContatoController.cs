@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AgendaAPI.Context;
 using AgendaAPI.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AgendaAPI.Controllers
 {
@@ -20,7 +21,7 @@ namespace AgendaAPI.Controllers
         public IActionResult Create(Contato contato) { 
             _context.Add(contato);
             _context.SaveChanges();
-            return Ok(contato);
+            return CreatedAtAction(nameof(ObterPorId),new {id = contato.Id}, contato);
         }
 
         [HttpGet("{id}")]
@@ -32,6 +33,12 @@ namespace AgendaAPI.Controllers
                 return NotFound();
             }
             return Ok(contato); 
+        }
+
+        [HttpGet("ObterContatoPorNome/{nome}")]
+        public IActionResult ObterPorNome(string nome) {
+            var contatos = _context.Contatos.Where(x=> x.Nome.Contains(nome));
+            return Ok(contatos);
         }
 
         [HttpPut("{id}")]
@@ -49,6 +56,16 @@ namespace AgendaAPI.Controllers
             _context.SaveChanges();
 
             return Ok(contatoNoBanco);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Deletar(int id) {
+            var contatoNoBanco = _context.Contatos.Find(id);
+            if (contatoNoBanco == null)
+                return NotFound();
+            _context.Contatos.Remove(contatoNoBanco);
+            _context.SaveChanges();
+            return NoContent();
         }
     }
 }

@@ -4,19 +4,15 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var env = builder.Environment;  // Obtém o ambiente atual da aplicação
+var env = builder.Environment;  
 
-// Configuração da fonte de configuração
 var configuration = new ConfigurationBuilder()
-    .SetBasePath(env.ContentRootPath)  // Define o diretório base para buscar os arquivos de configuração
+    .SetBasePath(env.ContentRootPath)  
     .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-    // Adiciona o arquivo de configuração específico do ambiente (por exemplo, appsettings.Development.json)
-    .Build();  // Constrói a configuração com base nos arquivos de configuração
+    .Build();
 
-// Configuração da injeção de dependência para o DbContext do Entity Framework
 builder.Services.AddDbContext<AgendaContext>(Options =>
     Options.UseSqlServer(builder.Configuration.GetConnectionString("ConexaoPadrao")));
-// Configura a conexão do banco de dados com base na configuração
 
 
 builder.Services.AddControllers();
