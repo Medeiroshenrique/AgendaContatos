@@ -73,5 +73,5 @@ Antes de iniciar, certifique-se de que possui instalado na sua máquina:
 
 1. Clone o repositório para o seu ambiente local:
    ```bash
-   git clone [https://github.com/Medeiroshenrique/AgendaContatos.git](https://github.com/Medeiroshenrique/AgendaContatos.git)
+   git clone https://github.com/Medeiroshenrique/AgendaContatos.git
    cd AgendaContatos
